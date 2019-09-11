@@ -59,3 +59,4 @@ SELECT * FROM emp WHERE ename LIKE '%K%';
 SELECT * FROM emp WHERE ename LIKE '%K';
 
 SELECT * FROM emp WHERE ename LIKE '_A%'; --'a'로 끝나는 두글자로 시작하는 내용
+SELECT * FROM emp WHERE NOT ename LIKE '%A%'; --'A'가 이름에 없는 사람들
