@@ -91,3 +91,4 @@ SELECT ename, sal, comm, NVL(comm, 0), job FROM emp ORDER BY job; --ORDER BY 생
 SELECT ename, sal, comm, sal * 12, (sal * 12 + NVL(comm, 0)) FROM emp ORDER BY job;
 --상관이 없는 사원만 출력하되 MGR 칼럼 값 대신 CEO로 출력해본다.
 SELECT ename, sal, hiredate, REPLACE(NVL(mgr, 0), 0, 'CEO') MGR FROM emp WHERE mgr is NULL;
+SELECT ename, sal, hiredate, NVL(TO_CHAR(mgr, '9999'), 'CEO') FROM emp WHERE mgr is NULL; --mgr이 숫자로 되어 있기 때문에 문자대체를 위해 문자로 변환해줘야 한다.
