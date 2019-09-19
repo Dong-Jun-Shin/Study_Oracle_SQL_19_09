@@ -84,11 +84,3 @@ SELECT deptno, COUNT(empno), COUNT(REPLACE(comm, 0, NULL)) FROM emp GROUP BY dep
 --HAVING 조건
 SELECT deptno, ROUND(AVG(sal), 0) FROM emp GROUP BY deptno HAVING AVG(sal) >= 2000;
 SELECT deptno, MAX(sal), MIN(sal) FROM emp GROUP BY deptno HAVING MAX(sal) > 2900;
---EMP 테이블에서 아래의 결과를 출력하는 SELECT 문장을 작성하여라. (H_YEAR, 사원수, 최소급여, 최대급여, 급여의 평균, 급여의 합)
-SELECT 
-TRUNC(hiredate, 'YYYY') AS H_YEAR,
-COUNT(empno) AS 사원수,
-MIN(sal) AS 최소급여,
-MAX(sal) AS 최대급여,
-AVG(sal) AS "급여의 평균",
-SUM(sal) AS "급여의 합" FROM emp GROUP BY TRUNC(hiredate, 'YYYY') ORDER BY TRUNC(hiredate, 'YYYY') ASC;
