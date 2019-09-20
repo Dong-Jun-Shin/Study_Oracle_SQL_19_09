@@ -73,11 +73,13 @@ FROM emp GROUP BY job;
 SELECT
     --분류 중 해당되는 것을 출력
     deptno,
+    --SUM(DECODE(job, 'CLERK', sal, 0) "CLERK"
     NVL(SUM(DECODE(job, 'CLERK', sal)), 0) CLERK,
     NVL(SUM(DECODE(job, 'SALESMAN', sal)), 0) SALESMAN,
     NVL(SUM(DECODE(job, 'MANAGER', sal)), 0) MANAGER,
     NVL(SUM(DECODE(job, 'ANALYST', sal)), 0) ANALYST,
     NVL(SUM(DECODE(job, 'PRESIDENT', sal)), 0) PRESIDENT,
+    --SUM(NVL2(job, sal, 0)) "TOTAL"
     SUM(sal) TOTAL
     --deptno으로 분류 및 집계, deptno으로 오름차순
 FROM emp GROUP BY ROLLUP(deptno) ORDER BY deptno ASC;
