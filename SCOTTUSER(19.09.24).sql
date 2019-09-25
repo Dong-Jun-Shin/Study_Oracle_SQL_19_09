@@ -1,4 +1,4 @@
---복사 테이블을 만들어준다.
+﻿--emp를 이용해서 emp01로 복사 테이블을 만들어준다.
 CREATE TABLE emp01 AS SELECT * FROM emp;
 
 --emp01의 모든 부서번호를 30번으로 수정한다.
