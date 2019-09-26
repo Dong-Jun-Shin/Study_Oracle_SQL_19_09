@@ -148,3 +148,7 @@ CREATE TABLE emp07(
 INSERT 
 
 SELECT * FROM emp07;
+
+--------------------------------------------------------------------------------------------------------------
+--제약조건 확인 (R = Relation)
+SELECT CONSTRAINT_NAME, CONSTRAINT_TYPE, TABLE_NAME, R_CONSTRAINT_NAME FROM USER_CONSTRAINTS WHERE TABLE_NAME='EMP07';
