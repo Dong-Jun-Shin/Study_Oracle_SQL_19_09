@@ -23,7 +23,7 @@ CREATE TABLE student(
     sd_id VARCHAR2(20) NOT NULL,
     sd_passwd VARCHAR2(20) NOT NULL,
     s_num VARCHAR2(2)  NOT NULL,
-    sd_birth NUMBER(8) NOT NULL,
+    sd_birth DATE NOT NULL,
     sd_phone VARCHAR2(15) NOT NULL,
     sd_address VARCHAR2(40) NOT NULL,
     sd_email VARCHAR2(40) NOT NULL,
