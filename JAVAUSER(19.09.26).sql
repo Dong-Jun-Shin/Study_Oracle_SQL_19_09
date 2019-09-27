@@ -15,7 +15,7 @@ INSERT INTO subject VALUES(4, '04', '인터넷비즈니스과');
 INSERT INTO subject VALUES(5, '05', '기술경영과');
 
 
---학생 테이블(일련번호, 학번, 이름, 아이디, 비밀번호, 학과번호, 생년월일, 핸드폰번호, 주소, 이메일, 등록일자
+--학생 테이블(일련번호, 학번, 이름, 아이디, 비밀번호, 학과번호, 생년월일, 핸드폰번호, 주소, 이메일, 등록일자)
 CREATE TABLE student(
     no VARCHAR2(4),
     sd_num VARCHAR2(8) NOT NULL,
@@ -53,6 +53,19 @@ INSERT INTO student(no, sd_num, sd_name, sd_id, sd_passwd, s_num, sd_birth, sd_p
                     VALUES(6, '08020001', '안익태', 'korea', 'kor1234', '02', '1994/06/01', 
                     '010-6666-6666', '본인의 주소', 'ffff@ffff.com', SYSDATE);
 
+--sd_gender 성별 컬럼 추가: 남자/여자를 입력해주면 된다.
+ALTER TABLE student ADD (sd_gender VARCHAR2(4) CHECK(gender IN('남자', '여자')) NOT NULL);
+    --ALTER TABLE student RENAME COLUMN gender TO sd_gender;
+    --ALTER TABLE student DROP COLUMN gender;
+UPDATE student SET sd_gender = '남자' WHERE no = 1;
+UPDATE student SET sd_gender = '여자' WHERE no = 2;
+UPDATE student SET sd_gender = '여자' WHERE no = 3;
+UPDATE student SET sd_gender = '여자' WHERE no = 4;
+UPDATE student SET sd_gender = '여자' WHERE no = 5;
+UPDATE student SET sd_gender = '남자' WHERE no = 6;
+
+
+
 --과목 테이블(일련번호, 과목약어, 과목명)
 CREATE TABLE lesson(
     no NUMBER,
@@ -80,7 +93,8 @@ CREATE TABLE trainee(
     t_date DATE DEFAULT SYSDATE NOT NULL,
     
     CONSTRAINT trainee_l_abbre_fk FOREIGN KEY(l_abbre) REFERENCES lesson(l_abbre),
-    CONSTRAINT trainee_sd_num_fk FOREIGN KEY(sd_num) REFERENCES student(sd_num)
+    CONSTRAINT trainee_sd_num_fk FOREIGN KEY(sd_num) REFERENCES student(sd_num),
+    CONSTRAINT trainee_t_section_ck CHECK(t_section IN('culture', 'major', 'minor'))
 );
 
 INSERT INTO trainee(no, sd_num, l_abbre, t_section) 
@@ -99,10 +113,7 @@ INSERT INTO trainee(no, sd_num, l_abbre, t_section)
                     VALUES(7, '08020001', 'ED', 'minor');
 
 
- 
 --DROP TABLE trainee;
 --DROP TABLE lesson;
 --DROP TABLE student;
 --DROP TABLE subject;
-
-
