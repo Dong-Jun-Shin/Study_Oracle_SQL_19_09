@@ -19,6 +19,14 @@ SELECT * FROM salgrade;
 SELECT E.ename, E.sal, S.grade FROM emp E, salgrade S WHERE E.sal BETWEEN S.losal AND S.hisal;
 SELECT E.ename, E.sal, S.grade FROM emp E, salgrade S WHERE E.sal >= S.losal AND E.sal <= S.hisal;
 
+--Outer Join
+--사원 테이블과 부서 테이블을 조인하여 사원 이름과 부서번호와 부서명을 출력한다. (Equi Join 비교)
+SELECT E.ename, D.deptno, D.dname FROM emp E, dept D WHERE E.deptno = D.deptno ORDER BY D.deptno;
+--사원 테이블과 부서 테이블을 조인하여 사원 이름과 부서번호와 부서명을 출력한다. (Outer Join 확인)
+SELECT E.ename, D.deptno, D.dname FROM emp E, dept D WHERE E.deptno(+) = D.deptno ORDER BY D.deptno;
 
----실습
---Equi Join
+--Self Join
+--사원 테이블에서 각 사원의 상사를 출력 (상사의 직원번호를 각 직원번호와 매치
+SELECT WORK.ename 사원명, MANAGER.ename 매니저명 FROM emp WORK, emp MANAGER WHERE WORK.MGR = MANAGER.EMPNO;
+--문장으로 출력되도록 한 쿼리문 (RPAD - 지정 자리수만큼 지정 문자로 채우기 / 자리수가 낮을 경우 잘린다.)
+SELECT RPAD(WORK.ename, 6, ' ') ||'의 매니저는'||MANAGER.ename||'이다.' AS " 그 사원의 매니저" FROM emp WORK, emp MANAGER WHERE WORK.mgr = MANAGER.empno;
