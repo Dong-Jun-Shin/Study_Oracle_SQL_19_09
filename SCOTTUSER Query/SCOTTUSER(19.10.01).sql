@@ -43,4 +43,4 @@ SELECT empno, ename, job, deptno FROM emp WHERE empno IN (SELECT DISTINCT mgr FR
 
 --EMP 테이블에서 CHICAGO에서 근무하는 사원과 같은 업무를 하는 사원의 이름, 업무를 출력하는 SELECT문을 작성하시오.
 SELECT ename, job, deptno FROM emp WHERE job IN (SELECT DISTINCT job FROM emp 
-WHERE deptno = (SELECT deptno FROM dept WHERE loc = 'CHICAGO')) AND (deptno <> 30) ORDER BY job DESC; 
+WHERE deptno = (SELECT deptno FROM dept WHERE loc = 'CHICAGO')) AND (deptno <> (SELECT deptno FROM dept WHERE loc = 'CHICAGO')) ORDER BY job DESC; 
