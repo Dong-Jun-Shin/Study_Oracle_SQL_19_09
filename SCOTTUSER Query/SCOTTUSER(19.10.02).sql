@@ -39,21 +39,39 @@ SELECT deptno 부서번호, COUNT(ename) 인원수, SUM(sal) "급여의 합" FRO
 GROUP BY deptno HAVING COUNT(DECODE(deptno, 10, ename, 20, ename, 30, ename)) > 4 ;
 SELECT deptno 부서번호, COUNT(*) 인원수, SUM(sal) "급여의 합" FROM emp
 GROUP BY deptno HAVING COUNT(*) > 4 ;
---2. EMP 테이블에서 가장 많은 사원이 속해있는 부서번호와 사원수를 출력하라.
---COUNT(*) = DECODE(deptno, 10, COUNT(ename), 20, COUNT(ename), 30, COUNT(ename)) 
-SELECT deptno, COUNT(*) FROM emp GROUP BY deptno HAVING COUNT(*) = (SELECT MAX(COUNT(*)) FROM emp GROUP BY deptno);
 
---3. EMP 테이블에서 부서번호가 10인 사원수와 부서번호가 20인 사원수, 부서번호가 30인 사원수를 각각 출력하라.
---DECODE는 각각의 행단위로 비교한다.
+--2. EMP 테이블에서 가장 많은 사원이 속해있는 부서번호와 사원수를 출력하라
+SELECT deptno 부서번호, COUNT(*) 사원수 FROM emp 
+GROUP BY deptno HAVING COUNT(*) = (SELECT MAX(COUNT(*)) FROM emp GROUP BY deptno);
+
+--3. EMP 테이블에서 부서번호가 10인 사원수와 부서번호가 20인 사원수, 부서번호가 30인 사원수를 각각 출력하라
 SELECT 
-COUNT(DECODE(deptno, 10, 1)) AS "10번부서인원수", 
-COUNT(DECODE(deptno, 20, ename)) AS "20번부서인원수", 
-COUNT(DECODE(deptno, 30, ename)) AS "30번부서인원수"
-FROM emp;
+COUNT(DECODE(deptno, 10, 1)) "10번부서인원수",
+COUNT(DECODE(deptno, 20, 1)) "20번부서인원수",
+COUNT(DECODE(deptno, 30, 1)) "30번부서인원수" 
+FROM emp; 
 
---4. 각 부서 별 평균 급여가 2000 이상이면 초과, 그렇지 않으면 미만을 출력하라.
-SELECT deptno, CASE WHEN AVG(sal) >= 2000 THEN '초과' WHEN AVG(sal) < 2000 THEN '미만' END FROM emp GROUP BY deptno;
---5. 각 부서 별 입사일이 가장 오래된 사원을 한 명씩 선별해 사원번호, 사원명, 부서번호, 입사일을 출력하라.
+--4. 각 부서별 평균 급여가 2000 이상이면 초과, 그렇지 않으면 미만을 출력하라
+SELECT deptno, CASE WHEN AVG(sal) >= 2000 THEN '초과' WHEN AVG(sal) < 2000 THEN '미만' END "평균급여"
+FROM emp GROUP BY deptno ORDER BY deptno;
+SELECT deptno, CASE WHEN AVG(sal) >= 2000 THEN '초과' ELSE '미만' END "평균급여"
+FROM emp GROUP BY deptno ORDER BY deptno;
 
---6. 1980년 ~ 1982년 사이에 입사된 각 부서별 사원수를 부서번호, 부서명, 1980년입사인원수, 1981년입사인원수, 1982년입사인원수로 출력하라.
+--5. 각 부서별 입사일이 가장 오래된 사원을 한 명씩 선별해 사원번호, 부서번호, 입사일을 출력하라
+SELECT empno, ename, deptno, hiredate FROM emp 
+WHERE hiredate IN (SELECT MIN(hiredate) FROM emp GROUP BY deptno) ORDER BY deptno;
 
+--6. 1980년 ~ 1982년 사이에 입사된 각 부서별 사원수를 부서번호, 부서명, 1980년입사인원수, 1981년입사인원수, 1982년입사인원수로 출력하라
+SELECT D.deptno, dname, 
+COUNT(DECODE(TO_CHAR(hiredate, 'YYYY'), 1980, 1)) "1980년입사인원수",
+COUNT(DECODE(TO_CHAR(hiredate, 'YYYY'), 1981, 1)) "1981년입사인원수",
+COUNT(DECODE(TO_CHAR(hiredate, 'YYYY'), 1982, 1)) "1982년입사인원수" 
+FROM emp E INNER JOIN dept D ON E.deptno = D.deptno
+GROUP BY D.deptno, dname;
+
+SELECT D.deptno, dname, 
+COUNT(DECODE(SUBSTR(hiredate,1, 2), 80, 1)) "1980년입사인원수",
+COUNT(DECODE(SUBSTR(hiredate,1, 2), 81, 1)) "1981년입사인원수",
+COUNT(DECODE(SUBSTR(hiredate,1, 2), 82, 1)) "1982년입사인원수" 
+FROM emp E INNER JOIN dept D ON E.deptno = D.deptno
+GROUP BY D.deptno, dname;
