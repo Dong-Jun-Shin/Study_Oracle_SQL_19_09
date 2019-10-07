@@ -28,5 +28,7 @@ CREATE OR REPLACE VIEW view_emp(사원번호, 사원명, 급여, 부서번호)
 AS
 SELECT empno, ename, sal, deptno FROM emp_copy;
 
+SELECT 사원번호 FROM view_emp;
+
 SELECT * FROM emp_copy;
 SELECT * FROM view_emp;
