@@ -110,6 +110,8 @@ SELECT COUNT(*) FROM m_emp; --Mview 15
 BEGIN
     DBMS_MVIEW.REFRESH('m_emp');
 END;
+/
+-- '/' 문장의 완전한 끝을 명시
 
 --동기화 후 
 SELECT COUNT(*) FROM emp_copy; --Table 14
