@@ -22,10 +22,12 @@ NOCYCLE
 CACHE 2;
 
 DROP SEQUENCE subject_seq;
-
 INSERT INTO subject(no, s_num, s_name) VALUES(subject_seq.NEXTVAL, '10', '통계학과');
-
 DELETE FROM subject WHERE no = '10';
 SELECT subject_seq.NEXTVAL FROM subject;
 
+SELECT no, s_num, s_name FROM subject WHERE s_name LIKE '%터%';
+SELECT no, s_num, s_name FROM subject WHERE s_name LIKE '%&s_name%';
+
+SELECT * FROM subject;
 SELECT * FROM subject;
