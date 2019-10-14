@@ -39,8 +39,8 @@ END;
 DECLARE
 	vempno emp.empno%TYPE;
 	vename emp.ename%TYPE;
-    vempsal emp.sal%TYPE;
-    vehiredate emp.hiredate%TYPE;
+    vsal emp.sal%TYPE;
+    vhiredate emp.hiredate%TYPE;
 BEGIN
 	DBMS_OUTPUT.PUT_LINE('사번/이름/급여/입사일');
 	DBMS_OUTPUT.PUT_LINE('------------------------------');
@@ -120,6 +120,7 @@ END;
 /
 
 --WARD 사원의 직무, 급여, 입사일자, 커미션, 부서명을 변수에 대입하여 출력하여 보자.
+--방법1
 DECLARE
     emp_job emp.job%TYPE;
     emp_sal emp.sal%TYPE;
@@ -135,25 +136,22 @@ BEGIN
 END;
 /
 
-/*사원 테이블(emp01)에서 사원번호가 제일 큰 사원을 찾아낸 뒤, 이 번호에 +3으로 사원번호를 부여하여 
-아래의 사원을 사원테이블에 신규 입력하는 PL/SQL을 만들어 보자.*/
+--방법2
 DECLARE
-    emp_ename emp.ename%TYPE;
-    emp_sal emp.sal%TYPE;
-    emp_hire emp.hiredate%TYPE;
-    emp_empno emp.empno%TYPE;
-    emp_job emp.job%TYPE;
-    emp_deptno emp.deptno%TYPE;
+    vemp emp%rowType;
+    vdept dept%rowType;
 BEGIN
-    SELECT MAX(empno) INTO emp_empno FROM emp_copy;
+    SELECT job, sal, hiredate, comm, dname INTO vemp.job, vemp.sal, vemp.hiredate, vemp.comm, vdept.dname
+    FROM emp INNER JOIN dept ON emp.deptno = dept.deptno WHERE ename = 'WARD';
     
-    emp_empno := emp_empno + 3;
-    
-    INSERT INTO emp_copy(ename, sal, hiredate, empno, mgr, job, deptno, comm) VALUES('OLIVIA', 2800, SYSDATE, emp_empno, 7788, 'SALESMAN', 10, 0);
+    DBMS_OUTPUT.PUT_LINE('WARD의 직무 / 급여 / 입사일자 / 커미션 / 부서명');
+    DBMS_OUTPUT.PUT_LINE(vemp.job || ' / ' || vemp.sal || ' / ' || vemp.hiredate || ' / ' || vemp.comm || ' / ' || vdept.dname);
 END;
 /
 
-/*
+/*사원 테이블(emp01)에서 사원번호가 제일 큰 사원을 찾아낸 뒤, 이 번호에 +3으로 사원번호를 부여하여 
+아래의 사원을 사원테이블에 신규 입력하는 PL/SQL을 만들어 보자.
+
 <사원명> : OLIVIA
 <급 여> : 2800
 <입사일자> : 현재일자
@@ -161,3 +159,19 @@ END;
 <직 무> : SALESMAN
 <부서번호> : 10
 */
+DECLARE
+    emp_empno emp.empno%TYPE;
+BEGIN
+    SELECT MAX(empno) INTO emp_empno FROM emp_copy;
+    
+--    emp_empno := emp_empno + 3;
+--    INSERT INTO emp_copy(empno, ename, job, mgr, hiredate, sal, comm, deptno) VALUES(emp_empno, 'OLIVIA', 'SALESMAN', 7788, SYSDATE, 2800, 0, 10);
+    
+    INSERT INTO emp_copy(empno, ename, job, mgr, hiredate, sal, comm, deptno) VALUES(emp_empno+3, 'OLIVIA', 'SALESMAN', 7788, SYSDATE, 2800, 0, 10);
+    
+    --완료를 위한 커밋
+    COMMIT; 
+END;
+/
+
+SELECT * FROM emp_copy;
