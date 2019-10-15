@@ -65,6 +65,3 @@ BEGIN
      DBMS_OUTPUT.PUT_LINE('사원번호:'||vemp.empno||' / 사원명 :' || vemp.ename ||' / 부서명 : '|| vdname || '(' || vemp.deptno || ')'); 
 END;
 /
-
-----랜덤값 가져오기
-SELECT DBMS_RANDOM.VALUE(1, 5) FROM DUAL;
