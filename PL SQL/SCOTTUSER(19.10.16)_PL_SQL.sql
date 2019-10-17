@@ -59,3 +59,6 @@ END;
 --프로시저 실행
 EXECUTE empproc;
 EXEC empproc;
+
+--프로시저 조회
+SELECT * FROM USER_SOURCE;
