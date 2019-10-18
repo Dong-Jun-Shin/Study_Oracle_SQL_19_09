@@ -58,8 +58,7 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('------------------------------------------');
     --변수 CND는 1부터 1씩 증가하다가 4에 도달하면 반복문에서 벗어난다.
     FOR cnt IN REVERSE 1..4 LOOP
-        SELECT * INTO vdept FROM dept
-        WHERE deptno = 10 * cnt;
+        SELECT * INTO vdept FROM dept WHERE deptno = 10 * cnt;
         DBMS_OUTPUT.PUT_LINE(vdept.deptno || '/' || vdept.dname || '/' || vdept.loc);
     END LOOP;
 END;

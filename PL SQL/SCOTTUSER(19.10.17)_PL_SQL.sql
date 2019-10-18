@@ -2,9 +2,7 @@
 --에러 확인
 CREATE OR REPLACE PROCEDURE empproc02 (vdeptno IN emp.deptno%TYPE)
 IS 
-    CURSOR c1
-IS
-    SELECT * FROM emp WHERE deptno=vdeptno;
+    CURSOR c1 IS SELECT * FROM emp WHERE deptno=vdeptno;
 BEGIN
     DBMS_OUTPUT.PUT_LINE('사원번호 / 사원명 / 급여');
     DBMS_OUTPUT.PUT_LINE('------------------------');
@@ -20,7 +18,9 @@ EXECUTE empproc02(20);
 EXECUTE empproc02(30);
 
 --부서에 따라 급여를 인상시키는 프로시저 (10이면 10%, 20이면 20%)
-CREATE OR REPLACE PROCEDURE empproc_inmode(v_deptno IN emp01.deptno%TYPE) 
+CREATE OR REPLACE PROCEDURE empproc_inmode(
+    v_deptno IN emp01.deptno%TYPE
+) 
 IS
 BEGIN
     UPDATE emp01 SET sal = DECODE(v_deptno, 10, sal*1.1, 20, sal*1.2, sal)
