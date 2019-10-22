@@ -94,13 +94,14 @@ IS
     (vename IN emp02.ename%TYPE, vhiredate emp02.hiredate%TYPE);
     
 --    --퇴사 사원 처리
---    PROCEDURE retire_emp02_proc(vempno IN emp02.empno%TYPE);
+    PROCEDURE retire_emp02_proc(vempno IN emp02.empno%TYPE);
 END;
 /
 
 --몸체부
 CREATE OR REPLACE PACKAGE BODY emp02_pkg
 IS
+    --사원 조회
     FUNCTION fn_get_emp02_name(vempno IN NUMBER)
     RETURN VARCHAR2
     IS
@@ -112,6 +113,7 @@ IS
         RETURN NVL(vename, '해당사원없음');
     END fn_get_emp02_name;
     
+    ---신규사원 처리
     PROCEDURE new_emp02_proc
       (vename IN emp02.ename%TYPE, vhiredate emp02.hiredate%TYPE)
     IS
@@ -128,12 +130,43 @@ IS
             DBMS_OUTPUT.PUT_LINE(SQLERRM);
             ROLLBACK;
     END new_emp02_proc;
+    
+    ---퇴사사원 처리
+    PROCEDURE retire_emp02_proc(vempno IN emp02.empno%TYPE)
+    IS
+        cnt NUMBER := 0;
+        --예외를 갖는 변수 선언
+        e_no_data EXCEPTION;
+    BEGIN
+        --퇴사한 사원은 사원테이블에서 삭제하지 않고 일단 퇴사일자 (retiredate)를 NULL에서 갱신한다.
+        UPDATE emp02 SET retiredate = SYSDATE WHERE empno = vempno AND retiredate IS NULL;
+        
+        --UPDATE된 건수를 가져온다. SQL : 직전에 실행된 쿼리의 결과가 담겨있음
+        cnt := SQL%ROWCOUNT;
+        
+        --갱신된 건수가 없으면 사용자 예외처리
+        IF cnt = 0 THEN
+            --e_no_data의 예외를 발생시킨다.
+            RAISE e_no_data;
+        END IF;
+        COMMIT;
+        
+        EXCEPTION 
+            WHEN e_no_data THEN
+                DBMS_OUTPUT.PUT_LINE(vempno || '에 해당되는 퇴사처리할 사원이 없습니다!');
+                ROLLBACK;
+            WHEN OTHERS THEN
+                DBMS_OUTPUT.PUT_LINE(SQLERRM);
+                ROLLBACK;
+    END  retire_emp02_proc;
 END emp02_pkg;
 /
 
 --번호를 이용한 조회
-SELECT emp02_pkg.fn_get_emp02_name(7369) FROM DUAL;
+SELECT EMP02_PIKG.FN_GET_EMP02_NAME(7369) FROM DUAL;
 --신규사원 추가
-EXECUTE emp02_pkg.new_emp02_proc('Roberts', SYSDATE);
+EXECUTE EMP02_PKG.NEW_EMP02_PROC('Roberts', SYSDATE);
+--퇴사사원 추가
+EXECUTE EMP02_PKG.RETIRE_EMP02_PROC(7950);
 
 SELECT * FROM emp02;
