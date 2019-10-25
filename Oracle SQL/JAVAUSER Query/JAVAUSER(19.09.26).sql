@@ -17,7 +17,7 @@ INSERT INTO subject VALUES(5, '05', '기술경영과');
 
 --학생 테이블(일련번호, 학번, 이름, 아이디, 비밀번호, 학과번호, 생년월일, 핸드폰번호, 주소, 이메일, 등록일자)
 CREATE TABLE student(
-    no VARCHAR2(4),
+    no NUMBER,
     sd_num VARCHAR2(8) NOT NULL,
     sd_name VARCHAR2(10) NOT NULL,
     sd_id VARCHAR2(20) NOT NULL,
@@ -54,7 +54,7 @@ INSERT INTO student(no, sd_num, sd_name, sd_id, sd_passwd, s_num, sd_birth, sd_p
                     '010-6666-6666', '본인의 주소', 'ffff@ffff.com', SYSDATE);
 
 --sd_gender 성별 컬럼 추가: 남자/여자를 입력해주면 된다.
-ALTER TABLE student ADD (sd_gender VARCHAR2(4) CHECK(gender IN('남자', '여자')) NOT NULL);
+ALTER TABLE student ADD (sd_gender VARCHAR2(4) CHECK(sd_gender IN('남자', '여자')));
     --ALTER TABLE student RENAME COLUMN gender TO sd_gender;
     --ALTER TABLE student DROP COLUMN gender;
 UPDATE student SET sd_gender = '남자' WHERE no = 1;

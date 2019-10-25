@@ -1,3 +1,4 @@
+----Subject 테이블
 --파일 이름만 담아두는 용도의 컬럼(Filename) 생성
 ALTER TABLE subject ADD(filename varchar2(100));
 
@@ -10,11 +11,12 @@ SELECT TRIM(TO_CHAR(subject_seq.NEXTVAL, '0000')) AS codeNumber FROM dual;
 --문자와 시퀀스를 이용하여 문자 4자리 코드번호 부여(예를 들어: CODE0005)
 SELECT CONCAT('CODE', TRIM(TO_CHAR(subject_seq.NEXTVAL, '0000'))) AS codeNumber FROM dual;
 
-CREATE OR REPLACE SEQUENCE subject_seq IS
-START WITH 0
+CREATE SEQUENCE subject_seq
+START WITH 1
 INCREMENT BY 1
 MINVALUE 0
-MAXVALUE 100
-
+MAXVALUE 9999
+NOCYCLE
+CACHE 2;
 
 SELECT * FROM subject;
