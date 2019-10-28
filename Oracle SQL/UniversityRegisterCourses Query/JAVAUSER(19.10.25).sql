@@ -20,4 +20,4 @@ CACHE 2;
 SELECT student_seq.NEXTVAL FROM DUAL;
 DROP SEQUENCE student_seq;
 
-DELETE FROM student WHERE no=10;
+DELETE FROM student WHERE no=7;
