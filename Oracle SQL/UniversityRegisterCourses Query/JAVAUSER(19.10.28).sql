@@ -62,3 +62,18 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE(msg);
 END;
 /
+
+--월단위 생일자수를 위한 쿼리문.
+SELECT COUNT(DECODE(TO_CHAR(sd_birth, 'MM'), '01', 1)) Jan,
+COUNT(DECODE(TO_CHAR(sd_birth, 'MM'), '02', 1)) Feb,
+COUNT(DECODE(TO_CHAR(sd_birth, 'MM'), '03', 1)) Mar,
+COUNT(DECODE(TO_CHAR(sd_birth, 'MM'), '04', 1)) Apr,
+COUNT(DECODE(TO_CHAR(sd_birth, 'MM'), '05', 1)) May,
+COUNT(DECODE(TO_CHAR(sd_birth, 'MM'), '06', 1)) Jun,
+COUNT(DECODE(TO_CHAR(sd_birth, 'MM'), '07', 1)) Jul,
+COUNT(DECODE(TO_CHAR(sd_birth, 'MM'), '08', 1)) Aug,
+COUNT(DECODE(TO_CHAR(sd_birth, 'MM'), '09', 1)) Sept,
+COUNT(DECODE(TO_CHAR(sd_birth, 'MM'), '10', 1)) Oct,
+COUNT(DECODE(TO_CHAR(sd_birth, 'MM'), '11', 1)) Nov,
+COUNT(DECODE(TO_CHAR(sd_birth, 'MM'), '12', 1)) Dec
+FROM student;
