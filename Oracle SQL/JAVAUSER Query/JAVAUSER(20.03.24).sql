@@ -49,3 +49,21 @@ SHOW ERROR;
 
 EXECUTE board_paging_insert;
 SELECT COUNT(*) FROM spring_board;
+
+
+--갤러리 샘플 데이터 입력
+CREATE OR REPLACE PROCEDURE gallery_paging_insert
+IS
+BEGIN
+    FOR cnt IN 1..120 LOOP
+        INSERT INTO spring_gallery(g_num, g_name, g_subject, g_content, g_thumb, g_file, g_pwd, g_date) 
+        VALUES(spring_gallery_seq.NEXTVAL, '사진'||cnt, 
+        '사진 부제목'||cnt, '사진 내용'||cnt, 'thumb_file_image'||cnt, 'file_image'||cnt, '1234', SYSDATE);
+    END LOOP;
+    COMMIT;
+END;
+/
+SHOW ERROR;
+
+EXECUTE gallery_paging_insert;
+SELECT COUNT(*) FROM spring_gallery;
